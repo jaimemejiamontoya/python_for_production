@@ -29,10 +29,10 @@ class DriveAPI:
         with open("C:/Users/jaime/python_for_production/token.json", "w") as token:
             token.write(creds.to_json())
 
-    def create_file(self, file_name, file_path):
+    def create_file(self, file_name, file_path, mime_type):
         service = build("drive", "v3", credentials=self.creds)
         file_metadata = {"name": file_name}
-        media = MediaFileUpload(file_path)
+        media = MediaFileUpload(file_path, mimetype=mime_type)
         file = service.files().create(body=file_metadata, media_body=media, fields="id").execute()
         return file
 
@@ -40,4 +40,3 @@ def uploadFile(file_name, file_path):
     SCOPES = ["https://www.googleapis.com/auth/drive"]
     drive_api = DriveAPI(SCOPES)
     file = drive_api.create_file(file_name, file_path, "image/jpeg")
-
