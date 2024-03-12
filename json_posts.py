@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+from urllib.request import urlopen 
 import json
 import streamlit as st
 import pandas as pd
@@ -8,18 +9,16 @@ import pandas as pd
 st.title("Looping 4 first posts from json file")
 st.write("Posts")
 
-json_file = "posts.json"
-
 num_of_entries = 4
-time_interval = 5
+time_int= 5
 
-with open(json_file, "r") as file:
-	posts = json.load(file)
+url = "https://jsonplaceholder.typicode.com/posts"
+response = urlopen(url) 
+json_posts = json.loads(response.read())
 
 with st.empty():
-
 	while True:
 		for i in range(num_of_entries):
-			df = pd.DataFrame(posts[i].items()).astype("str")
+			df = pd.DataFrame(json_posts[i].items()).astype("str")
 			df
-			time.sleep(time_interval)
+			time.sleep(time_int)
