@@ -34,13 +34,10 @@ class USDmigrationUtils:
         for_each_begin = gltf_file.createOutputNode("block_begin", "foreach_begin1")
         for_each_begin.parm("method").set(1)
         for_each_begin.parm("blockpath").set("../foreach_end1")
-        for_each_begin.parm("createmetablock").pressButton()
-        meta_node = hou.node(for_each_begin.parent().path() + "/foreach_begin1_metadata1")
-        meta_node.parm("blockpath").set("../foreach_end1")
+
 
         #attribute wrangle
         attr_wrangle = for_each_begin.createOutputNode("attribwrangle")
-        attr_wrangle.setInput(1,meta_node)
         attr_wrangle.parm("class").set(1)
         attr_wrangle.parm("snippet").set('string raw_path[]  = split(@name, "_",1);\nif (len(raw_path) > 1) {\ns@path = "/" + split(@name, "_",1)[1];\n}else {s@path = "/" + split(@name, "_",1)[0];}\nif(split(s@shop_materialpath, "_")[-1] == "Eye") s@path = "/Eye";')
 
